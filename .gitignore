@@ -1,0 +1,37 @@
+# --- .NET build artifacts ---
+bin/
+obj/
+
+# --- Visual Studio / Rider / VSCode ---
+.vs/
+.idea/
+*.user
+*.suo
+*.userprefs
+
+# --- Logs & temp ---
+*.log
+*.tmp
+*.cache
+
+# --- OS crap ---
+.DS_Store
+Thumbs.db
+
+# --- NuGet packages ---
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+
+# --- mp3 test files ---
+*.mp3
+
+# --- Other non-source files ---
+*.pdf
+
+# --- Build config ---
+*.AssemblyInfo.cs
+
+# --- Resharper, Rider ---
+_ReSharper.Caches/
