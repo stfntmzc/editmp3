@@ -11,15 +11,19 @@ namespace classes
         {
             List<CommandEntry> commandsToExecute = getCommandsToExecute(args);
             executeCommands(commandsToExecute);
+
+            Console.WriteLine(string.Join(", ", Globals.targetFileNames));
         }
 
         private static void executeCommands(List<CommandEntry> commandsToExecute)
         {
-            string[] fileNames = Directory.GetFiles(".", "*.mp3");
+            string[] fileNames;
+            if (Globals.targetFileNames.Count == 0) fileNames = Directory.GetFiles(".", "*.mp3");
+            else fileNames = Globals.targetFileNames.ToArray();
+
             foreach (string fileName in fileNames)
             {
                 Console.WriteLine($"editing file {fileName}");
-                
                 foreach (CommandEntry command in commandsToExecute)
                 {
                     Globals.commandsMap[command.name](fileName, command.arguments);
@@ -31,21 +35,37 @@ namespace classes
         {
             
             List<CommandEntry> commandsToExecute = new ();
+            bool addingTargetFiles = false;
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i][0] == '-')
                 {
                     string command = args[i].Substring(1);
-                    if (!Globals.commandsMap.ContainsKey(command))
+                    if (command == "files")
+                    {
+                        addingTargetFiles = true;
+                    }
+                    else if (Globals.commandsMap.ContainsKey(command))
+                    {
+                        commandsToExecute.Add(new CommandEntry(command, new List<string> {}));
+                        addingTargetFiles = false;
+                    }
+                    else
                     {
                         Console.WriteLine($"error: unknown command: {command}");
                         Environment.Exit(1);
                     }
-                    commandsToExecute.Add(new CommandEntry(command, new List<string> {}));
                 } 
                 else
                 {
-                    commandsToExecute[commandsToExecute.Count - 1].arguments.Add(args[i]); 
+                    if (addingTargetFiles)
+                    {
+                        Globals.targetFileNames.Add(args[i]);
+                    }
+                    else
+                    {
+                        commandsToExecute[commandsToExecute.Count - 1].arguments.Add(args[i]);   
+                    } 
                 }
             }
             return commandsToExecute;
