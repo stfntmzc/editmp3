@@ -1,7 +1,7 @@
 # editmp3
 
-A simple command-line tool for batch-editing MP3 metadata using **TagLib#**.  
-This project is currently in **very early development** and intended mainly for personal use.
+A simple command-line tool for batch-editing MP3 metadata using TagLib#.  
+This project is currently in very early development and intended mainly for personal use.
 
 ---
 
